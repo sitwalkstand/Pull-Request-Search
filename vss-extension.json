@@ -1,14 +1,14 @@
 {
     "manifestVersion": 1,
-    "id": "pull-request-search",
-    "version": "1.13.100",
-    "name": "Pull Request Search",
+    "id": "pull-request-audit",
+    "version": "1.0.1",
+    "name": "Pull Request Audit",
     "scopes": [ 
         "vso.code",
         "vso.identitypicker"
     ],
     "description": "Rich pull request search experience.",
-    "publisher": "ottostreifel",
+    "publisher": "americanwoodmarkcorporation",
     "icons": {
         "default": "img/storeLogo.png"
     },
@@ -62,7 +62,7 @@
                 "ms.vss-code-web.code-hub-group"
             ],
             "properties": {
-                "name": "Pull Request Search",
+                "name": "Pull Request Audit",
                 "order": 30,
                 "uri": "index.html"
             }

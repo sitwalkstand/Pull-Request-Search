@@ -120,8 +120,40 @@ function getCommits(pullRequst: GitPullRequest, repository: GitRepository): IPro
 
 export function loadAndShowContents(pullRequest: GitPullRequest, repository: GitRepository): void {
     $("#pull-request-search-container").hide();
+    $("#pull-request-work-items-container").hide();
     $("#pull-request-contents-search-container").show();
     
+    const uri = VSS.getWebContext().host.uri;
+    const project = VSS.getWebContext().project.name;
+    const team = VSS.getWebContext().team.name;
+    const prUrl = pullRequest.repository.name ?
+        `${uri}${project}/${team}/_git/${pullRequest.repository.name}/pullrequest/${pullRequest.pullRequestId}`
+        :
+        `${uri}_git/${this.props.repository.project.name}/pullrequest/${pullRequest.pullRequestId}`;
+    $(".contents-title").attr("href", prUrl).text(pullRequest.title);
+
+    if (!pullRequest.lastMergeCommit) {
+        setMessage("Cannot find merge commit for pull request");
+        return;
+    }
+
+    setMessage("Loading pr commits...");
+    getCommits(pullRequest, repository).then(([parentCommitId, prCommits]) => {
+        setMessage("Loading diff items...");
+        getDiffItems(parentCommitId, prCommits[0].commitId, repository).then(diffItems => {
+            setMessage("Loading diff blobs...");
+            getDiffBlobs(diffItems, repository).then(diffBlobs => {
+                setMessage("");
+                initializeContentsSearch(pullRequest, repository, diffBlobs);
+            });
+        }
+        );
+    });
+}
+export function loadAndShowWorkItems(pullRequest: GitPullRequest, repository: GitRepository): void {
+    $("#pull-request-search-container").hide();
+    $("#pull-request-contents-search-container").hide();
+    $("#pull-request-work-items-container").show();
     
     const uri = VSS.getWebContext().host.uri;
     const project = VSS.getWebContext().project.name;

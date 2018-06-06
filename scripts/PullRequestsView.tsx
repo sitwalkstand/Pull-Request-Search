@@ -3,6 +3,7 @@ import * as ReactDom from "react-dom";
 import * as React from "react";
 import * as Utils_Date from "VSS/Utils/Date";
 import { loadAndShowContents } from "./loadContents";
+import { loadAndShowWorkItems } from "./loadContents";
 import { computeStatus } from "./status";
 import { HostNavigationService } from "VSS/SDK/Services/Navigation";
 import { ImageUrlMapper } from "./identity/ImageUrlMapper";
@@ -55,6 +56,14 @@ class RequestRow extends React.Component<{
                         onClick={() => loadAndShowContents(pr, repository)}
                     >
                         {"Search Contents"}
+                    </button>
+                </td>
+                <td className="bowtie column-pad-right">
+                    <button
+                        className="cta"
+                        onClick={() => loadAndShowWorkItems(pr, repository)}
+                    >
+                        {"Show Work Items"}
                     </button>
                 </td>
                 <td className="column-pad-right">
